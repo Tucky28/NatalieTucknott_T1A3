@@ -26,7 +26,11 @@ class pet(object):
         self.pet_type = self.pet_type
         self.sleep = randrange(self.sleep_max)
         self.vocab = self.vocab[:]
-        
-
+    
+    # Function created to reduce variables over time
+    def __clock_tick(self):
+        self.food -= 1
+        self.sleep -= 1
+        self.excitement -=1
 
 
