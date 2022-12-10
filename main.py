@@ -14,6 +14,7 @@ class pet(object):
     level: 0
     sleep_reduce = 1
     sleep_max = 10
+    sleep_warning = 1
     vocab = [""]
 
     # Created constructor for pet
@@ -33,4 +34,24 @@ class pet(object):
         self.sleep -= 1
         self.excitement -=1
 
+    # Set the status of the pets mood
+    def mood(self):
+        if self.food <= self.food_warning:
+            return 'Hungry'
+        elif self.excitement <= self.excitement_warning:
+            return 'Bored'
+        elif self.sleep <= self.sleep_warning:
+            return 'Sleepy'
+        elif (self.food <= self.food_warning) and (self.excitement <= self.excitement_warning):
+            return 'Hungry and Bored'
+        elif (self.food <= self.food_warning) and (self.sleep <= self.sleep_warning):
+            return 'Hungry and Sleepy'
+        elif (self.excitement <= self.excitment_warning) and (self.sleep <= self.sleep_warning):
+            return 'Sleepy and Bored'
+        elif (self.excitement <= self.excitment_warning) and (self.sleep <= self.sleep_warning) and (self.food <= self.food_warning):
+            return 'Dying please help!'
+        else:
+            return 'Happy'
 
+
+        
