@@ -28,7 +28,7 @@ class pet(object):
         self.sleep = randrange(self.sleep_max)
         self.vocab = self.vocab[:]
     
-    # Function created to reduce variables over time
+    # Function created to reduce variables
     def __clock_tick(self):
         self.food -= 1
         self.sleep -= 1
@@ -52,6 +52,15 @@ class pet(object):
             return 'Dying please help!'
         else:
             return 'Happy'
+
+    # Teach pet new word and add to vocab + decrease mood
+    def teach(self, new_word):
+        self.vocab.append(new_word)
+        self.__clock_tick
+
+
+
+
 
 
         
