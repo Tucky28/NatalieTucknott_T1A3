@@ -56,7 +56,7 @@ class pet(object):
     # Teach pet new word and add to vocab + decrease mood
     def teach(self, new_word):
         self.vocab.append(new_word)
-        self.__clock_tick
+        self.__clock_tick(self.sleep and self.excitement)
 
     # Feed pet and increase food variable
     # Print the status of the pet
@@ -69,12 +69,24 @@ class pet(object):
         if self.food < 0:
             self.food = 0
             print ("I'm still ", self.mood)
-        elif self.food > self.food_max:
+        else:
+            self.food > self.food_max
             self.food = self.food_max
             print("***BURP*** I'm so full")
     
+    # Play with pet and increase excitement
+    # Print the status of the pet
+    def play(self):
+        print("WOOHOO!")
+        print(self.status)
+        fun = randrange(self.excitement, self.excitement_max)
+        self.excitement += fun
 
+        if self.excitement < 0:
+            self.excitement = 0
+            print ("I'm still ", self.mood)
+        else: 
+            self.food > self.food_max
+            self.food = self.food_max
+            print("I'm having SO MUCH FUN!")
 
-
-
-        
