@@ -90,3 +90,8 @@ class pet(object):
             self.food = self.food_max
             print("I'm having SO MUCH FUN!")
 
+    # Print status of pets food, sleep and excitement
+    def status(self, status):
+        print(self.food)
+        print(self.sleep)
+        print(self.excitement)
