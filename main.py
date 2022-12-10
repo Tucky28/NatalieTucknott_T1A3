@@ -58,7 +58,21 @@ class pet(object):
         self.vocab.append(new_word)
         self.__clock_tick
 
+    # Feed pet and increase food variable
+    # Print the status of the pet
+    def feed(self):
+        print("***CRUNCH*** mmm.. Thank you!")
+        print(self.status)
+        meal = randrange(self.food, self.food_max)
+        self.food += meal
 
+        if self.food < 0:
+            self.food = 0
+            print ("I'm still ", self.mood)
+        elif self.food > self.food_max:
+            self.food = self.food_max
+            print("***BURP*** I'm so full")
+    
 
 
 
