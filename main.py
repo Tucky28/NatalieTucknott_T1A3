@@ -1,4 +1,5 @@
 import datetime
+import time
 from random import randrange
 import pickle
 import threading
@@ -15,11 +16,11 @@ class Pet(object):
     excitement_warning = 3
     food_reduce = 2
     food_max = 10
-    food_warning = 7
+    food_warning = 2
     level = 0
     sleep_reduce = 1
     sleep_max = 10
-    sleep_warning = 7
+    sleep_warning = 1
     vocab = [""]
 
     # Created constructor for pet
@@ -31,29 +32,25 @@ class Pet(object):
         self.name = name
         self.pet_type = pet_type
         self.sleep = randrange(self.sleep_max)
-        self.timer_task = None
         self.vocab = self.vocab[:]
 
-    
     # to start your timer
     def make_alive(self):
-        self.timer_task = threading.Timer(PERIOD_SEC, self.__clock_tick, args=(self,))
+        self.timer_task = threading.Timer(PERIOD_SEC, self.__clock_tick)
         self.timer_task.start()
 
-# to stop your timer
+    # to stop your timer
     def kill(self):
-        if (self.timer_task is not None):
-            self.timer_task.cancel()
-            self.timer_task = None
+        self.timer_task.cancel()
 
-# Function created to reduce variables
+     # Function created to reduce variables
     def __clock_tick(self):
         self.food -= 1
         self.sleep -= 1
         self.excitement -=1
-        self.make_alive()
         self.age += 2
-
+        
+    
     # Set the status of the pets mood
     def mood(self):
         if self.excitement <= self.excitement_warning and self.sleep <= self.sleep_warning and self.food <= self.food_warning:
@@ -83,8 +80,8 @@ class Pet(object):
     # Print the status of the pet
     def feed(self):
         print("***CRUNCH*** mmm.. Thank you!")
-        print(self.status)
-        meal = randrange(self.food, self.food_max)
+        print(self.status())
+        meal = randrange(1,5)
         self.food += meal
 
         if self.food < 0:
@@ -99,8 +96,8 @@ class Pet(object):
     # Print the status of the pet
     def play(self):
         print("WOOHOO!")
-        print(self.status)
-        fun = randrange(self.excitement, self.excitement_max)
+        print(self.status())
+        fun = randrange(1,5)
         self.excitement += fun
         self.sleep -= self.sleep_reduce
         self.food -= self.sleep_reduce
@@ -109,8 +106,8 @@ class Pet(object):
             self.excitement = 0
             print ("I'm still ", self.mood())
         else: 
-            self.food > self.food_max
-            self.food = self.food_max
+            self.excitement > self.excitement_max
+            self.excitement = self.excitement_max
             print("I'm having SO MUCH FUN!")
 
     # Print status of pets food, sleep and excitement
@@ -119,20 +116,44 @@ class Pet(object):
         print("Hunger level", self.food)
         print("Sleep level ", self.sleep)
         print("Excitement level " , self.excitement)
-        print("Age is " , self.age)
+        print("Age is " , self.age) 
 
 # Created main for user to create pet and print pet details
 def main():
-    pet_type = input("What type of animal is your pet?")
-    pet_name = input("What do you want to name your pet?")
+    pet_type = input("What type of animal is your pet? ")
+    pet_name = input("What do you want to name your pet? ")
 
     # Create new pet
     my_pet = Pet(pet_name, pet_type)
-    print("Hello I am ", my_pet.name , "and I'm a ", my_pet.pet_type)
-    my_pet.status()
-    
-    choice = input("status")
-    if choice: 1
-    print (my_pet.status())
+    my_pet.make_alive()
 
+    def print_menu():
+        print("1 - Feed", my_pet.name)
+        print("2 - Play with", my_pet.name)
+        print("3 - Teach", my_pet.name, "a new word")
+        print("4 - Bedtime for", my_pet.name)
+        print("5 - Quit")  
+
+    print("Hello I am", my_pet.name, "and I'm a", my_pet.pet_type, "!")
+    print(my_pet.status())
+    print_menu()
+        
+    while True:
+        option = int(input())
+        if option == 1:
+            my_pet.feed()
+        elif option == 2:
+            my_pet.play()
+        elif option == 3:
+            my_pet.teach()
+        elif option == 4:
+            print("In progress..")
+        elif option == 5:
+            print("Quitting in progress..")
+        else:
+            print("Bye")
+            break
+
+        print_menu()
+        
 main()
