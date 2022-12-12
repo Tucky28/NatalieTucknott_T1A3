@@ -3,6 +3,7 @@ import time
 from random import randrange
 import pickle
 import threading
+import sys
 
 PERIOD_SEC = 10
 
@@ -24,7 +25,7 @@ class Pet(object):
     sleep_min = 0
     sleep_max = 10
     sleep_warning = 1
-    vocab = [""]
+    vocab = ['']
 
     # Created constructor for pet
     def __init__(self, name, pet_type):
@@ -84,6 +85,7 @@ class Pet(object):
 
     # Teach pet new word and add to vocab + decrease mood
     def teach(self, new_word):
+        new_word = input("What new word would you like to teach?")
         self.vocab.append(new_word)
         self.food -= self.food_reduce
         self.sleep -= self.sleep_reduce
@@ -116,9 +118,9 @@ class Pet(object):
 
     def bedtime(self):
         print('***YAWN***')
-        time.sleep(5)
+        time.sleep(3)
         print('zzz...')
-        time.sleep(5)
+        time.sleep(3)
 
     # Print status of pets food, sleep and excitement
     def status(self):
@@ -127,6 +129,8 @@ class Pet(object):
         print("Excitement level " , self.excitement)
         print("Age is " , self.age) 
         print("I\'m ", self.mood())
+        return ""
+
 
 # Created main for user to create pet and print pet details
 def main():
@@ -156,11 +160,12 @@ def main():
         elif option == 2:
             my_pet.play()
         elif option == 3:
-            my_pet.teach()
+            Pet.teach(self='', new_word='')
         elif option == 4:
             my_pet.bedtime()
         elif option == 5:
-            print("Quitting in progress..")
+            print("See you next time..")
+            sys.exit()
         else:
             print("Oops! That's an invalid option")
         
