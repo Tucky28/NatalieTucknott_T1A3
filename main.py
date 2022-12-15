@@ -4,14 +4,13 @@ from random import randrange
 import pickle
 import threading
 import sys
-from json import JSONEncoder
 
 PERIOD_SEC = 10
 
 # Created pet class with variables for all pets
 class Pet(object):
-    name = [""]
-    pet_type = [""]
+    name = []
+    pet_type = []
     age = 0
     excitement_reduce = 2
     excitement_min = 0
@@ -26,7 +25,7 @@ class Pet(object):
     sleep_min = 0
     sleep_max = 10
     sleep_warning = 1
-    vocab = [""]
+    vocab = []
 
     # Created constructor for pet
     def __init__(self, name, pet_type):
@@ -37,17 +36,16 @@ class Pet(object):
         self.name = name
         self.pet_type = pet_type
         self.sleep = randrange(self.sleep_max)
-        self.vocab = self.vocab[:]
+        self.vocab = self.vocab
 
      # Function created to reduce all variables
     def __clock_tick(self):
+        self.make_alive()
+        self.min_max_level()
         self.food -= 1
         self.sleep -= 1
         self.excitement -=1
-        
         self.age += 2
-        self.make_alive()
-        self.min_max_level()
     
     # to start timer
     def make_alive(self):
@@ -84,12 +82,21 @@ class Pet(object):
         self.food -= self.food_reduce
         self.sleep -= self.sleep_reduce
         self.min_max_level()
+        self.pet_level()
+
+    def pet_level(self):
+        vocab_list = len(self.vocab)
+        if vocab_list == 2:
+            self.level += 1
+            print(self.name,"just leveled up!")
+            print(self.name, "is now level",self.level)
+
+        
 
     # Feed pet and increase food variable
     # Print the status of the pet
     def feed(self):
         print("***CRUNCH*** mmm.. Thank you!")
-        print(self.status())
         meal = randrange(1,5)
         self.food += meal
         self.sleep -= self.sleep_reduce
@@ -99,12 +106,11 @@ class Pet(object):
     # Print the status of the pet
     def play(self):
         print('WOOHOOO!')
-        print(self.status())
         fun = randrange(1,5)
         self.excitement += fun
         self.sleep -= self.sleep_reduce
         self.food -= self.food_reduce
-        self.min_max_level()
+        self.min_max_level()  
 
     def bedtime(self):
         print('***YAWN***')
@@ -112,17 +118,19 @@ class Pet(object):
         print('zzz...')
         time.sleep(3)
         sleep = randrange (1,5)
-        self.sleep += sleep
         self.min_max_level()
+        self.sleep += sleep
+        self.food -= self.food_reduce
+        self.excitement -= self.excitement_reduce
 
     # Print status of pets food, sleep and excitement
     def status(self):
         print("Hunger level", self.food)
-        print("Sleep level ", self.sleep)
-        print("Excitement level " , self.excitement)
-        print("Age is " , self.age) 
-        print("I\'m ", self.mood())
-        return ""
+        print("Sleep level", self.sleep)
+        print("Excitement level" , self.excitement)
+        print("Age is" , self.age) 
+        print("I\'m", self.mood())
+        return
 
  # Max and min range for pet variables
     def min_max_level(self):
@@ -147,25 +155,27 @@ def main():
         print("4 - Bedtime for", my_pet.name)
         print("5 - Quit")  
 
+
     print("Hello I am", my_pet.name, "and I'm a", my_pet.pet_type, "!")
     print(my_pet.status())
     print_menu()
         
     while True:
-        option = int(input())
-        if option == 1:
+        option = input()
+        if option == '1':
             my_pet.feed()
-        elif option == 2:
+        elif option == '2':
             my_pet.play()
-        elif option == 3:
-            Pet.teach(self='', new_word='')
-        elif option == 4:
+        elif option == '3':
+            my_pet.teach(new_word='')
+        elif option == '4':
             my_pet.bedtime()
-        elif option == 5:
+        elif option == '5':
             print("See you next time..")
             sys.exit()
         else:
             print("Oops! That's an invalid option")
+        my_pet.min_max_level()
         my_pet.status()
         print_menu()
 
