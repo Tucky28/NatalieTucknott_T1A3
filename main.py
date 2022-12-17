@@ -132,15 +132,18 @@ class Pet(object):
 
 
     def bedtime(self):
-        print('***YAWN***')
-        time.sleep(2)
-        print('zzz...')
-        time.sleep(2)
-        sleep = randrange (1,5)
-        self.min_max_level()
-        self.sleep += sleep
-        self.food -= self.food_reduce
-        self.excitement -= self.excitement_reduce
+        if self.food <= self.food_min or self.excitement <= self.excitement_min:
+            print("I'm too", self.mood(),"to go to sleep")
+        else:
+            print('***YAWN***')
+            time.sleep(2)
+            print('zzz...')
+            time.sleep(2)
+            self.min_max_level()
+            sleep = randrange (1,5)
+            self.sleep += sleep
+            self.food -= self.food_reduce
+            self.excitement -= self.excitement_reduce
 
     # Print status of pets food, sleep and excitement
     def status(self):
