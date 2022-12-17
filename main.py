@@ -99,11 +99,11 @@ class Pet(object):
     # Feed pet and increase food variable
     # Print the status of the pet
     def feed(self):
-        print("***CRUNCH*** mmm.. Thank you!")
-        meal = randrange(1,5)
-        self.food += meal
-        self.sleep -= self.sleep_reduce
-        self.min_max_level()
+            print("***CRUNCH*** mmm.. Thank you!")
+            meal = randrange(1,5)
+            self.food += meal
+            self.sleep -= self.sleep_reduce
+            self.min_max_level()
 
     # Play with pet and increase excitement
     # Print the status of the pet
@@ -116,9 +116,6 @@ class Pet(object):
         self.min_max_level()
 
     def walk(self):
-        if self.food <= self.food_min or self.sleep <= self.sleep_min:
-            print("I'm too", self.mood(),"to keep walking")
-        else:
             print("Walk in progress...")
             time.sleep(2)
             self.min_max_level()
@@ -132,9 +129,6 @@ class Pet(object):
 
 
     def bedtime(self):
-        if self.food <= self.food_min or self.excitement <= self.excitement_min:
-            print("I'm too", self.mood(),"to go to sleep")
-        else:
             print('***YAWN***')
             time.sleep(2)
             print('zzz...')
@@ -186,15 +180,27 @@ def main():
     while True:
         option = input()
         if option == '1':
-            my_pet.feed()
+            if my_pet.food >= my_pet.food_max:
+                print("I'm too full to eat")
+            else:
+                my_pet.feed()
         elif option == '2':
-            my_pet.play()
+            if my_pet.excitement >= my_pet.excitement_max:
+                print("I'm too excited to play again")
+            else:
+                my_pet.play()
         elif option == '3':
             my_pet.teach(new_word='')
         elif option == '4':
-            my_pet.bedtime()
+            if my_pet.sleep >= my_pet.sleep_max:
+                print("I'm too full to eat")
+            else:
+                my_pet.bedtime()
         elif option == '5':
-            my_pet.walk()
+            if my_pet.excitement >= my_pet.excitement_max:
+                print("I'm too excited to play again")
+            else:
+                my_pet.walk()
         elif option == '6':
             print("See you next time..")
             sys.exit()
