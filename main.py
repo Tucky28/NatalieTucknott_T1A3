@@ -23,7 +23,7 @@ class Pet(object):
     food_reduce = 2
     food_max = 10
     food_warning = 2
-    level = 0
+    level = 1
     sleep_reduce = 1
     sleep_min = 0
     sleep_max = 10
@@ -79,6 +79,19 @@ class Pet(object):
         else:
             return 'Happy'
 
+    def pet_level(self):
+        vocab_list = len(self.vocab)
+        if vocab_list == 3:
+            self.level += 1
+            print(self.name,"just leveled up!")
+            print(self.name, "is now level",self.level)
+
+    def pet_level_two(self):
+        if (self.level == 2 and self.coin == 3):
+            self.level += 1
+            print(self.name,"just leveled up!")
+            print(self.name, "is now level",self.level)
+
     # Teach pet new word and add to vocab + decrease mood
     def teach(self, new_word):
         new_word = input("What new word would you like to teach?")
@@ -87,14 +100,6 @@ class Pet(object):
         self.sleep -= self.sleep_reduce
         self.min_max_level()
         self.pet_level()
-
-    def pet_level(self):
-        vocab_list = len(self.vocab)
-        if vocab_list == 2:
-            self.level += 1
-            print(self.name,"just leveled up!")
-            print(self.name, "is now level",self.level)
-
 
     # Feed pet and increase food variable
     # Print the status of the pet
@@ -126,6 +131,7 @@ class Pet(object):
             self.coin += coins
             print("What an adventure!",self.name, "picked up",coins, "coins" )
             print(self.name, "now has",self.coin,"coins")
+            self.pet_level_two()
 
 
     def bedtime(self):
@@ -176,7 +182,7 @@ def main():
     print("Hello I am", my_pet.name, "and I'm a", my_pet.pet_type, "!")
     print(my_pet.status())
     print_menu()
-        
+
     while True:
         option = input()
         if option == '1':
