@@ -224,6 +224,15 @@ class Pet(object):
                 for key, value in shop.store_items.items():
                     print(key, ' : ', value)
             print("0 - Go back home")
+
+    def inventory_menu(self):
+        print("Inventory contains:")
+        if self.inventory == []:
+            print("You haven't purchased anything yet from the Pet Store for",self.name)
+        else:
+            print(*self.inventory,sep='\n')
+        print(self.name,"has collected",self.coin, "coins")
+
             
 # Created main for user to create pet and print pet details
 def main():
@@ -237,7 +246,7 @@ def main():
         pet_name = input("What would you like to name your pet? ")
         if pet_name != '':
             break
-        # Create new pet
+    # Create new pet
     my_pet = Pet(pet_name, pet_type)
     my_pet.make_alive()
 
@@ -247,14 +256,16 @@ def main():
             print("2 - Play with", my_pet.name)
             print("3 - Teach", my_pet.name, "a new word")
             print("4 - Bedtime for", my_pet.name)
-            print("7 - Quit") 
+            print("7 - Inventory")
+            print("0 - Quit") 
         elif my_pet.level == 2:
             print("1 - Feed", my_pet.name)
             print("2 - Play with", my_pet.name)
             print("3 - Teach", my_pet.name, "a new word")
             print("4 - Bedtime for", my_pet.name)
             print("5 - Take", my_pet.name, "for a walk")
-            print("7 - Quit")
+            print("7 - Inventory")
+            print("0 - Quit")
         elif my_pet.level == 3:
             print("1 - Feed", my_pet.name)
             print("2 - Play with", my_pet.name)
@@ -262,8 +273,9 @@ def main():
             print("4 - Bedtime for", my_pet.name)
             print("5 - Take", my_pet.name, "for a walk")
             print("6 - Pet Store")
-            print("7 - Quit")  
-            
+            print("7 - Inventory")
+            print("0 - Quit")  
+
     print("Hello I am", my_pet.name, "and I'm a", my_pet.pet_type, "!")
     print(my_pet.status())
     print_menu()
@@ -300,6 +312,8 @@ def main():
             else:
                 my_pet.pet_store_items()
         elif option == '7':
+            my_pet.inventory_menu()
+        elif option == '0':
             print("See you next time..")
             sys.exit()
         else:
