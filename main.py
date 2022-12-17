@@ -91,7 +91,6 @@ class Pet(object):
             print(self.name,"just leveled up!")
             print(self.name, "is now level",self.level)
 
-        
 
     # Feed pet and increase food variable
     # Print the status of the pet
@@ -110,13 +109,23 @@ class Pet(object):
         self.excitement += fun
         self.sleep -= self.sleep_reduce
         self.food -= self.food_reduce
-        self.min_max_level()  
+        self.min_max_level()
+
+    def walk(self):
+        print("Walk in progress...")
+        time.sleep(2)
+        print("What an adventure!",self.name, "picked up" "coins" )
+        self.min_max_level()
+        self.excitement += 1
+        self.sleep -= self.sleep_reduce
+        self.food -= self.food_reduce
+
 
     def bedtime(self):
         print('***YAWN***')
-        time.sleep(3)
+        time.sleep(2)
         print('zzz...')
-        time.sleep(3)
+        time.sleep(2)
         sleep = randrange (1,5)
         self.min_max_level()
         self.sleep += sleep
@@ -153,8 +162,8 @@ def main():
         print("2 - Play with", my_pet.name)
         print("3 - Teach", my_pet.name, "a new word")
         print("4 - Bedtime for", my_pet.name)
-        print("5 - Quit")  
-
+        print("5 - Take", my_pet.name, "for a walk")
+        print("6 - Quit")  
 
     print("Hello I am", my_pet.name, "and I'm a", my_pet.pet_type, "!")
     print(my_pet.status())
@@ -171,6 +180,8 @@ def main():
         elif option == '4':
             my_pet.bedtime()
         elif option == '5':
+            my_pet.walk()
+        elif option == '6':
             print("See you next time..")
             sys.exit()
         else:
