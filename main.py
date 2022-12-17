@@ -109,11 +109,12 @@ class Pet(object):
         new_word = input("What new word would you like to teach?")
         if new_word == "":
             print("Oops! You need to enter a word to continue")
-        self.vocab.append(new_word)
-        self.food -= self.food_reduce
-        self.sleep -= self.sleep_reduce
-        self.min_max_level()
-        self.pet_level()
+        else:
+            self.vocab.append(new_word)
+            self.food -= self.food_reduce
+            self.sleep -= self.sleep_reduce
+            self.min_max_level()
+            self.pet_level()
 
     # Feed pet and increase food variable
     # Print the status of the pet
@@ -224,13 +225,19 @@ class Pet(object):
                     print(key, ' : ', value)
             print("0 - Go back home")
             
-
 # Created main for user to create pet and print pet details
 def main():
-    pet_type = input("What type of animal is your pet? ")
-    pet_name = input("What do you want to name your pet? ")
+    while True:
+        pet_type = input("What type of animal is your pet? ")
+        if pet_type != '':
+            print("Your animal is a", pet_type)
+            break
 
-    # Create new pet
+    while True:
+        pet_name = input("What would you like to name your pet? ")
+        if pet_name != '':
+            break
+        # Create new pet
     my_pet = Pet(pet_name, pet_type)
     my_pet.make_alive()
 
@@ -256,7 +263,7 @@ def main():
             print("5 - Take", my_pet.name, "for a walk")
             print("6 - Pet Store")
             print("7 - Quit")  
-
+            
     print("Hello I am", my_pet.name, "and I'm a", my_pet.pet_type, "!")
     print(my_pet.status())
     print_menu()
