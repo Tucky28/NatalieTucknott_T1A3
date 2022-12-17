@@ -12,6 +12,7 @@ class Pet(object):
     name = []
     pet_type = []
     age = 0
+    coin = 0
     excitement_reduce = 2
     excitement_min = 0
     excitement_max = 10
@@ -37,6 +38,7 @@ class Pet(object):
         self.pet_type = pet_type
         self.sleep = randrange(self.sleep_max)
         self.vocab = self.vocab
+        self.coin = self.coin
 
      # Function created to reduce all variables
     def __clock_tick(self):
@@ -114,11 +116,14 @@ class Pet(object):
     def walk(self):
         print("Walk in progress...")
         time.sleep(2)
-        print("What an adventure!",self.name, "picked up" "coins" )
         self.min_max_level()
         self.excitement += 1
         self.sleep -= self.sleep_reduce
         self.food -= self.food_reduce
+        coins = randrange(0,5)
+        self.coin += coins
+        print("What an adventure!",self.name, "picked up",coins, "coins" )
+        print(self.name, "now has",self.coin,"coins")
 
 
     def bedtime(self):
