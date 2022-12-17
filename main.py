@@ -13,6 +13,8 @@ class Pet(object):
     pet_type = []
     age = 0
     coin = 0
+    coin_min = 0
+    coin_max = 100
     excitement_reduce = 2
     excitement_min = 0
     excitement_max = 10
@@ -114,16 +116,19 @@ class Pet(object):
         self.min_max_level()
 
     def walk(self):
-        print("Walk in progress...")
-        time.sleep(2)
-        self.min_max_level()
-        self.excitement += 1
-        self.sleep -= self.sleep_reduce
-        self.food -= self.food_reduce
-        coins = randrange(0,5)
-        self.coin += coins
-        print("What an adventure!",self.name, "picked up",coins, "coins" )
-        print(self.name, "now has",self.coin,"coins")
+        if self.food <= self.food_min or self.sleep <= self.sleep_min:
+            print("I'm too", self.mood(),"to keep walking")
+        else:
+            print("Walk in progress...")
+            time.sleep(2)
+            self.min_max_level()
+            self.excitement += 3
+            self.sleep -= self.sleep_reduce
+            self.food -= self.food_reduce
+            coins = randrange(0,5)
+            self.coin += coins
+            print("What an adventure!",self.name, "picked up",coins, "coins" )
+            print(self.name, "now has",self.coin,"coins")
 
 
     def bedtime(self):
@@ -151,6 +156,7 @@ class Pet(object):
         self.food = min(max(self.food_min, self.food), self.food_max)
         self.sleep = min(max(self.sleep_min, self.sleep), self.sleep_max)
         self.excitement = min(max(self.excitement_min, self.excitement), self.excitement_max)
+        self.coin = min(max(self.coin_min, self.coin), self.coin_max)
 
 # Created main for user to create pet and print pet details
 def main():
