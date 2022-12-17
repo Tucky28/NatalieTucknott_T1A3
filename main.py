@@ -6,6 +6,7 @@ import threading
 import sys
 
 PERIOD_SEC = 10
+run_level_once = False
 
 class shop():
     store_items = {
@@ -31,6 +32,8 @@ class Pet(object):
     food_max = 10
     food_warning = 2
     level = 1
+    level_two = 2
+    level_three = 3
     sleep_reduce = 1
     sleep_min = 0
     sleep_max = 10
@@ -90,19 +93,22 @@ class Pet(object):
 
     def pet_level(self):
         vocab_list = len(self.vocab)
-        if vocab_list == 3:
-            self.level += 1
-            print(self.name,"just leveled up!")
-            print(self.name, "is now level",self.level)
+        while self.level >= 2:
+            break
+        else:
+            if vocab_list == 3:
+                self.level += 1
+                print("\n",self.name,"just leveled up!",self.name,"is now level",self.level,"")
+                print("YOU UNLOCKED A NEW MENU ITEM - Take",self.name,"for a walk")
 
     def pet_level_two(self):
-        while self.level == 3:
+        while self.level >= 3:
             break
-        if self.level == 2 and self.coin >= 3:
-            self.level += 1
-            print(self.name,"just leveled up!")
-            print(self.name, "is now level",self.level)
-            print("You've unlocked the Pet Store!")
+        else:
+            if self.level == 2 and self.coin >= 3:
+                self.level += 1
+                print("\n",self.name,"just leveled up!",self.name,"is now level",self.level,"")
+                print("YOU UNLOCKED A NEW MENU ITEM - Pet Store")
 
     # Teach pet new word and add to vocab + decrease mood
     def teach(self, new_word):
@@ -110,11 +116,12 @@ class Pet(object):
         if new_word == "":
             print("Oops! You need to enter a word to continue")
         else:
+            print("\nThanks for teaching me how to say",new_word,"!")
             self.vocab.append(new_word)
+            print("I've learnt how to say:", *self.vocab,sep='\n')
             self.food -= self.food_reduce
             self.sleep -= self.sleep_reduce
             self.min_max_level()
-            self.pet_level()
 
     # Feed pet and increase food variable
     # Print the status of the pet
@@ -146,7 +153,6 @@ class Pet(object):
             self.coin += coins
             print("What an adventure!",self.name, "picked up",coins, "coins" )
             print(self.name, "now has",self.coin,"coins")
-            self.pet_level_two()
 
 
     def bedtime(self):
@@ -162,12 +168,17 @@ class Pet(object):
 
     # Print status of pets food, sleep and excitement
     def status(self):
-        print("Hunger level", self.food)
-        print("Sleep level", self.sleep)
-        print("Excitement level" , self.excitement)
-        print("Age is" , self.age) 
-        print("I\'m", self.mood())
-        return
+        time.sleep(1)
+        print("+---------------------+")
+        print(" PET STATUS:","I'm",self.mood(),"\n")
+        print(" Hunger:",self.food)
+        print(" Sleep:",self.sleep)
+        print(" Excitement:",self.excitement)
+        print(" Age:" ,self.age) 
+        self.pet_level_two()
+        self.pet_level()
+        print("+---------------------+")
+        return ""
 
  # Max and min range for pet variables
     def min_max_level(self):
@@ -177,34 +188,35 @@ class Pet(object):
         self.coin = min(max(self.coin_min, self.coin), self.coin_max)
 
     def pet_store_items(self):
-        print("Welcome to the Pet Store!")
+        print("+---------------------------+")
+        print("| Welcome to the Pet Store! |")
+        print("+---------------------------+")
         if shop.store_items == {}:
             print("No items available for sale - You've bought everything!")
         else:
-            print("Items available to buy:")
+            print("\nItems available to buy:")
             for key, value in shop.store_items.items():
                 print(key, ' : ', value)
-            print("0 - Go back home")
+            print("\n0 - Go back home")
         
         while True:
             choice = input()
             if choice == '1' and self.coin <= 2:
-                print("You don't have enough coins to purchase this item")
-                print("0 - Go back home")
+                print("You don't have enough coins to purchase this item\n")
             elif choice == '1' and self.coin >= 2:
                 self.coin -= 3
                 shop.store_items.pop('1 - Squeezy Ball Toy', 2)
                 self.inventory.append('Squeezy Ball Toy')
 
             elif choice == '2' and self.coin <= 5:
-                print("You don't have enough coins to purchase this item")
+                print("You don't have enough coins to purchase this item\n")
             elif choice == '2' and self.coin >= 5:
                 self.coin -= 6
                 shop.store_items.pop('2 - Snooze 2000 Pet Bed', 5)
                 self.inventory.append('Snooze 2000 Pet Bed')
             
             elif choice == '3' and self.coin <= 10:
-                print("You don't have enough coins to purchase this item")
+                print("You don't have enough coins to purchase this item\n")
             elif choice == '3' and self.coin >= 10:
                 self.coin -= 8
                 shop.store_items.pop('3 - Xtra Nutrient Pet Food', 10)
@@ -215,15 +227,14 @@ class Pet(object):
             else:
                 print("Oops! That's an invalid option")
             
+            print("You have the following items in your inventory:", *self.inventory,sep='\n')
             if shop.store_items == {}:
                 print("No items available for sale - You've bought everything!")
-
             else:
-                print(self.name, "now owns:", *self.inventory,sep='\n')
-                print("Items available to buy:")
+                print("\nItems available to buy:")
                 for key, value in shop.store_items.items():
                     print(key, ' : ', value)
-            print("0 - Go back home")
+            print("\n0 - Go back home")
 
     def inventory_menu(self):
         print("Inventory contains:")
@@ -233,17 +244,20 @@ class Pet(object):
             print(*self.inventory,sep='\n')
         print(self.name,"has collected",self.coin, "coins")
 
+
             
 # Created main for user to create pet and print pet details
 def main():
+    print('+---------------------+')
+    print("|  Welcome to PyPet!  |")
+    print('+---------------------+')
     while True:
-        pet_type = input("What type of animal is your pet? ")
+        pet_type = input("Let's begin!\n\nWhat type of animal is your pet?\nAnimal Type: ")
         if pet_type != '':
-            print("Your animal is a", pet_type)
             break
 
     while True:
-        pet_name = input("What would you like to name your pet? ")
+        pet_name = input("\nWhat would you like to name your pet? ")
         if pet_name != '':
             break
     # Create new pet
@@ -252,21 +266,24 @@ def main():
 
     def print_menu():
         if my_pet.level == 1:
+            print("\nInteract with",my_pet.name,":")
             print("1 - Feed", my_pet.name)
             print("2 - Play with", my_pet.name)
             print("3 - Teach", my_pet.name, "a new word")
             print("4 - Bedtime for", my_pet.name)
             print("7 - Inventory")
-            print("0 - Quit") 
+            print("0 - Quit\n") 
         elif my_pet.level == 2:
+            print("\nInteract with",my_pet.name,":")
             print("1 - Feed", my_pet.name)
             print("2 - Play with", my_pet.name)
             print("3 - Teach", my_pet.name, "a new word")
             print("4 - Bedtime for", my_pet.name)
             print("5 - Take", my_pet.name, "for a walk")
             print("7 - Inventory")
-            print("0 - Quit")
+            print("0 - Quit\n")
         elif my_pet.level == 3:
+            print("\nInteract with",my_pet.name,":")
             print("1 - Feed", my_pet.name)
             print("2 - Play with", my_pet.name)
             print("3 - Teach", my_pet.name, "a new word")
@@ -274,10 +291,11 @@ def main():
             print("5 - Take", my_pet.name, "for a walk")
             print("6 - Pet Store")
             print("7 - Inventory")
-            print("0 - Quit")  
-
-    print("Hello I am", my_pet.name, "and I'm a", my_pet.pet_type, "!")
+            print("0 - Quit\n")  
+    
+    print("\n--- Hello! ---\n I am", my_pet.name, "and I'm a",my_pet.pet_type,"!")
     print(my_pet.status())
+    time.sleep(1)
     print_menu()
 
     while True:
