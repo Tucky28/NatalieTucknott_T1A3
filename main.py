@@ -7,6 +7,13 @@ import sys
 
 PERIOD_SEC = 10
 
+class shop():
+    store_items = {
+        'Squeezy Ball Toy': '3 coins',
+        'Snooze 2000 Pet Bed': '6 coins',
+        'Xtra Nutrient Pet Food': '8 coins'
+    }
+
 # Created pet class with variables for all pets
 class Pet(object):
     name = []
@@ -161,6 +168,12 @@ class Pet(object):
         self.excitement = min(max(self.excitement_min, self.excitement), self.excitement_max)
         self.coin = min(max(self.coin_min, self.coin), self.coin_max)
 
+    def pet_store_items(self):
+        print("Welcome to the Pet Store!")
+        print("Items available to buy:")
+        for key, value in shop.store_items.items():
+            print(key, ' : ', value)
+
 # Created main for user to create pet and print pet details
 def main():
     pet_type = input("What type of animal is your pet? ")
@@ -208,8 +221,7 @@ def main():
             else:
                 my_pet.walk()
         elif option == '6':
-            if my_pet.level != 3:
-                print(my_pet.name, "needs to reach Level 3 to go to the Pet Store")
+            my_pet.pet_store_items()
         elif option == '7':
             print("See you next time..")
             sys.exit()
