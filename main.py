@@ -9,9 +9,9 @@ PERIOD_SEC = 10
 
 class shop():
     store_items = {
-        '1 - Squeezy Ball Toy': 3,
-        '2 - Snooze 2000 Pet Bed': 6,
-        '3 - Xtra Nutrient Pet Food': 8,
+        '1 - Squeezy Ball Toy': 2,
+        '2 - Snooze 2000 Pet Bed': 5,
+        '3 - Xtra Nutrient Pet Food': 10,
     }
 
 # Created pet class with variables for all pets
@@ -136,7 +136,7 @@ class Pet(object):
             self.excitement += 3
             self.sleep -= self.sleep_reduce
             self.food -= self.food_reduce
-            coins = randrange(0,5)
+            coins = randrange(0,7)
             self.coin += coins
             print("What an adventure!",self.name, "picked up",coins, "coins" )
             print(self.name, "now has",self.coin,"coins")
@@ -182,37 +182,39 @@ class Pet(object):
         
         while True:
             choice = input()
-            if choice == '1' and self.coin <= 1:
+            if choice == '1' and self.coin <= 2:
                 print("You don't have enough coins to purchase this item")
                 print("0 - Go back home")
-            elif choice == '1' and self.coin >= 1:
+            elif choice == '1' and self.coin >= 2:
                 self.coin -= 3
-                shop.store_items.pop('1 - Squeezy Ball Toy', 3)
+                shop.store_items.pop('1 - Squeezy Ball Toy', 2)
                 self.inventory.append('Squeezy Ball Toy')
 
-            elif choice == '2' and self.coin <= 2:
+            elif choice == '2' and self.coin <= 5:
                 print("You don't have enough coins to purchase this item")
-
-            elif choice == '2' and self.coin >= 2:
+            elif choice == '2' and self.coin >= 5:
                 self.coin -= 6
-                shop.store_items.pop('2 - Snooze 2000 Pet Bed', 6)
+                shop.store_items.pop('2 - Snooze 2000 Pet Bed', 5)
                 self.inventory.append('Snooze 2000 Pet Bed')
             
-            elif choice == '3' and self.coin <= 3:
+            elif choice == '3' and self.coin <= 10:
                 print("You don't have enough coins to purchase this item")
-
-            elif choice == '3' and self.coin >= 3:
+            elif choice == '3' and self.coin >= 10:
                 self.coin -= 8
-                shop.store_items.pop('3 - Xtra Nutrient Pet Food', 8)
+                shop.store_items.pop('3 - Xtra Nutrient Pet Food', 10)
                 self.inventory.append('Xtra Nutrient Pet Food')
+
             elif choice == '0':
                 break
-                
+            
+            if shop.store_items == {}:
+                print("No items available for sale - You've bought everything!")
 
-            print(self.name, "now owns:", *self.inventory,sep='\n')
-            print("Items available to buy:")
-            for key, value in shop.store_items.items():
-                print(key, ' : ', value)
+            else:
+                print(self.name, "now owns:", *self.inventory,sep='\n')
+                print("Items available to buy:")
+                for key, value in shop.store_items.items():
+                    print(key, ' : ', value)
             print("0 - Go back home")
             
 
@@ -254,7 +256,7 @@ def main():
             my_pet.teach(new_word='')
         elif option == '4':
             if my_pet.sleep >= my_pet.sleep_max:
-                print("I'm too full to eat")
+                print("I'm not tired'")
             else:
                 my_pet.bedtime()
         elif option == '5':
