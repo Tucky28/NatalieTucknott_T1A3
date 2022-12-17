@@ -102,6 +102,7 @@ class Pet(object):
             self.level += 1
             print(self.name,"just leveled up!")
             print(self.name, "is now level",self.level)
+            print("You've unlocked the Pet Store!")
 
     # Teach pet new word and add to vocab + decrease mood
     def teach(self, new_word):
@@ -208,6 +209,8 @@ class Pet(object):
 
             elif choice == '0':
                 break
+            else:
+                print("Oops! That's an invalid option")
             
             if shop.store_items == {}:
                 print("No items available for sale - You've bought everything!")
@@ -276,12 +279,17 @@ def main():
             else:
                 my_pet.bedtime()
         elif option == '5':
-            if my_pet.excitement >= my_pet.excitement_max:
+            if my_pet.level == 1:
+                print("Oops! That's an invalid option")
+            elif my_pet.excitement >= my_pet.excitement_max:
                 print("I'm too excited to play again")
             else:
                 my_pet.walk()
         elif option == '6':
-            my_pet.pet_store_items()
+            if my_pet.level <= 2:
+                print("Oops! That's an invalid option")
+            else:
+                my_pet.pet_store_items()
         elif option == '7':
             print("See you next time..")
             sys.exit()
