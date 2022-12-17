@@ -11,7 +11,7 @@ class shop():
     store_items = {
         '1 - Squeezy Ball Toy': 3,
         '2 - Snooze 2000 Pet Bed': 6,
-        '3 - Xtra Nutrient Pet Food': 8
+        '3 - Xtra Nutrient Pet Food': 8,
     }
 
 # Created pet class with variables for all pets
@@ -180,12 +180,28 @@ class Pet(object):
             choice = input()
             if choice == '1' and self.coin <= 3:
                 print("You don't have enough coins to purchase this item")
+                print("0 - Go back home")
             elif choice == '1' and self.coin >= 3:
                 self.coin -= 3
                 shop.store_items.pop('1 - Squeezy Ball Toy', 3)
                 self.inventory.append('Squeezy Ball Toy')
-                print(self.inventory)
-                print(shop.store_items)
+                print(self.name, "now owns:", self.inventory)
+
+            elif choice == '2' and self.coin <= 6:
+                print("You don't have enough coins to purchase this item")
+
+            elif choice == '2' and self.coin >= 6:
+                self.coin -= 6
+                shop.store_items.pop('2 - Snooze 2000 Pet Bed', 6)
+                self.inventory.append('Snooze 2000 Pet Bed')
+
+            print(*self.inventory,sep='\n')
+            
+            print("Items available to buy:")
+            for key, value in shop.store_items.items():
+                print(key, ' : ', value)
+            print("0 - Go back home")
+            
 
 # Created main for user to create pet and print pet details
 def main():
