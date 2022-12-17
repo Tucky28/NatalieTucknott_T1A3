@@ -107,6 +107,8 @@ class Pet(object):
     # Teach pet new word and add to vocab + decrease mood
     def teach(self, new_word):
         new_word = input("What new word would you like to teach?")
+        if new_word == "":
+            print("Oops! You need to enter a word to continue")
         self.vocab.append(new_word)
         self.food -= self.food_reduce
         self.sleep -= self.sleep_reduce
