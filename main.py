@@ -9,9 +9,9 @@ PERIOD_SEC = 10
 
 class shop():
     store_items = {
-        'Squeezy Ball Toy': '3 coins',
-        'Snooze 2000 Pet Bed': '6 coins',
-        'Xtra Nutrient Pet Food': '8 coins'
+        '1 - Squeezy Ball Toy': 3,
+        '2 - Snooze 2000 Pet Bed': 6,
+        '3 - Xtra Nutrient Pet Food': 8
     }
 
 # Created pet class with variables for all pets
@@ -36,6 +36,7 @@ class Pet(object):
     sleep_max = 10
     sleep_warning = 1
     vocab = []
+    inventory = []
 
     # Created constructor for pet
     def __init__(self, name, pet_type):
@@ -48,6 +49,7 @@ class Pet(object):
         self.sleep = randrange(self.sleep_max)
         self.vocab = self.vocab
         self.coin = self.coin
+        self.inventory = self.inventory
 
      # Function created to reduce all variables
     def __clock_tick(self):
@@ -173,6 +175,17 @@ class Pet(object):
         print("Items available to buy:")
         for key, value in shop.store_items.items():
             print(key, ' : ', value)
+        
+        while True:
+            choice = input()
+            if choice == '1' and self.coin <= 3:
+                print("You don't have enough coins to purchase this item")
+            elif choice == '1' and self.coin >= 3:
+                self.coin -= 3
+                shop.store_items.pop('1 - Squeezy Ball Toy', 3)
+                self.inventory.append('Squeezy Ball Toy')
+                print(self.inventory)
+                print(shop.store_items)
 
 # Created main for user to create pet and print pet details
 def main():
