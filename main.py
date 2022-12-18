@@ -1,19 +1,10 @@
-import datetime
 import time
 from random import randrange
-import pickle
 import threading
 import sys
+import shop
 
-PERIOD_SEC = 10
-run_level_once = False
-
-class shop():
-    store_items = {
-        '1 - Squeezy Ball Toy': 2,
-        '2 - Snooze 2000 Pet Bed': 5,
-        '3 - Xtra Nutrient Pet Food': 10,
-    }
+PERIOD_SEC = 15
 
 # Created pet class with variables for all pets
 class Pet(object):
@@ -67,10 +58,6 @@ class Pet(object):
     def make_alive(self):
         self.timer_task = threading.Timer(PERIOD_SEC, self.__clock_tick)
         self.timer_task.start()
-
-    # to stop timer
-    def kill(self):
-        self.timer_task.cancel()
     
     # Set the status of the pets mood
     def mood(self):
@@ -91,6 +78,7 @@ class Pet(object):
         else:
             return 'Happy'
 
+    # Pet level up to two from one
     def pet_level(self):
         vocab_list = len(self.vocab)
         while self.level >= 2:
@@ -101,6 +89,7 @@ class Pet(object):
                 print("\n",self.name,"just leveled up!",self.name,"is now level",self.level,"")
                 print("YOU UNLOCKED A NEW MENU ITEM - Take",self.name,"for a walk")
 
+    # Pet level up to three from two
     def pet_level_two(self):
         while self.level >= 3:
             break
@@ -110,7 +99,7 @@ class Pet(object):
                 print("\n",self.name,"just leveled up!",self.name,"is now level",self.level,"")
                 print("YOU UNLOCKED A NEW MENU ITEM - Pet Store")
 
-    # Teach pet new word and add to vocab + decrease mood
+    # Teach pet new word and add to vocab
     def teach(self, new_word):
         new_word = input("What new word would you like to teach?")
         if new_word == "":
@@ -124,7 +113,6 @@ class Pet(object):
             self.min_max_level()
 
     # Feed pet and increase food variable
-    # Print the status of the pet
     def feed(self):
             print("***CRUNCH*** mmm.. Thank you!")
             meal = randrange(1,5)
@@ -133,15 +121,16 @@ class Pet(object):
             self.min_max_level()
 
     # Play with pet and increase excitement
-    # Print the status of the pet
     def play(self):
         print('WOOHOOO!')
         fun = randrange(1,5)
+        self.min_max_level()
         self.excitement += fun
         self.sleep -= self.sleep_reduce
         self.food -= self.food_reduce
-        self.min_max_level()
-
+   
+    # Take pet for a walk and pick up coins
+    # Print the coins collected on walk
     def walk(self):
             print("Walk in progress...")
             time.sleep(1)
@@ -154,7 +143,7 @@ class Pet(object):
             print("What an adventure!",self.name, "picked up",coins, "coins" )
             print(self.name, "now has",self.coin,"coins")
 
-
+    # Take pet to bed
     def bedtime(self):
             print('***YAWN***')
             time.sleep(1)
@@ -187,15 +176,16 @@ class Pet(object):
         self.excitement = min(max(self.excitement_min, self.excitement), self.excitement_max)
         self.coin = min(max(self.coin_min, self.coin), self.coin_max)
 
+ # Go to pet store, purchase items and add to inventory
     def pet_store_items(self):
         print("+---------------------------+")
         print("| Welcome to the Pet Store! |")
         print("+---------------------------+")
-        if shop.store_items == {}:
+        if shop.shop.store_items == {}:
             print("No items available for sale - You've bought everything!")
         else:
             print("\nItems available to buy:")
-            for key, value in shop.store_items.items():
+            for key, value in shop.shop.store_items.items():
                 print(key, ' : ', value)
             print("\n0 - Go back home")
         
@@ -205,21 +195,21 @@ class Pet(object):
                 print("You don't have enough coins to purchase this item\n")
             elif choice == '1' and self.coin >= 2:
                 self.coin -= 3
-                shop.store_items.pop('1 - Squeezy Ball Toy', 2)
+                shop.shop.store_items.pop('1 - Squeezy Ball Toy', 2)
                 self.inventory.append('Squeezy Ball Toy')
 
             elif choice == '2' and self.coin <= 5:
                 print("You don't have enough coins to purchase this item\n")
             elif choice == '2' and self.coin >= 5:
                 self.coin -= 6
-                shop.store_items.pop('2 - Snooze 2000 Pet Bed', 5)
+                shop.shop.store_items.pop('2 - Snooze 2000 Pet Bed', 5)
                 self.inventory.append('Snooze 2000 Pet Bed')
             
             elif choice == '3' and self.coin <= 10:
                 print("You don't have enough coins to purchase this item\n")
             elif choice == '3' and self.coin >= 10:
                 self.coin -= 8
-                shop.store_items.pop('3 - Xtra Nutrient Pet Food', 10)
+                shop.shop.store_items.pop('3 - Xtra Nutrient Pet Food', 10)
                 self.inventory.append('Xtra Nutrient Pet Food')
 
             elif choice == '0':
@@ -228,14 +218,15 @@ class Pet(object):
                 print("Oops! That's an invalid option")
             
             print("You have the following items in your inventory:", *self.inventory,sep='\n')
-            if shop.store_items == {}:
+            if shop.shop.store_items == {}:
                 print("No items available for sale - You've bought everything!")
             else:
                 print("\nItems available to buy:")
-                for key, value in shop.store_items.items():
+                for key, value in shop.shop.store_items.items():
                     print(key, ' : ', value)
             print("\n0 - Go back home")
 
+    # Inventory for pets items to be stored in
     def inventory_menu(self):
         print("Inventory contains:")
         if self.inventory == []:
@@ -244,9 +235,8 @@ class Pet(object):
             print(*self.inventory,sep='\n')
         print(self.name,"has collected",self.coin, "coins")
 
-
-            
-# Created main for user to create pet and print pet details
+          
+# Created main for user to create pet and interact
 def main():
     print('+---------------------+')
     print("|  Welcome to PyPet!  |")
@@ -264,6 +254,7 @@ def main():
     my_pet = Pet(pet_name, pet_type)
     my_pet.make_alive()
 
+    # Unique menu options depending on the level of the pet 
     def print_menu():
         if my_pet.level == 1:
             print("\nInteract with",my_pet.name,":")
@@ -298,6 +289,7 @@ def main():
     time.sleep(1)
     print_menu()
 
+    # Menu selections and error messages
     while True:
         option = input()
         if option == '1':
@@ -340,5 +332,5 @@ def main():
         my_pet.status()
         print_menu()
 
-
-main()
+if __name__ == '__main__':
+    main()
