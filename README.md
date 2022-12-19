@@ -4,6 +4,10 @@
 
 https://github.com/Tucky28/NatalieTucknott_T1A3.git
 
+## Link to Video
+
+https://vimeo.com/782376484
+
 ### Style Guide that code adheres to
 
 PEP 8 – Style Guide for Python Code
