@@ -1,3 +1,4 @@
+# Dict items available for purchase
 class shop(object):
     store_items = {
         '1 - Squeezy Ball Toy': 2,
