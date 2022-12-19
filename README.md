@@ -46,7 +46,8 @@ Steps to install PyPet
 2. Go to your terminal on your computer
 3. Change directory to NatalieTucknott_T1A3
    - If you're unsure of how to do this copy this code into your terminal `cd NatalieTucknott_T1A3`
-4. Run the following code in your terminal `./run_pypet.sh`
+4. Move into the virtual environment (venv) by running the following code `source venv/bin/activate`
+5. Run the following code in your terminal `./run_pypet.sh`
 
 Now you can start playing PyPet!
 
